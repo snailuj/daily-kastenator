@@ -1,0 +1,489 @@
+/* Daily Kastenator Plugin Styles */
+
+/* ============================================
+   View Container
+   ============================================ */
+
+.kastenator-view {
+  padding: var(--size-4-4);
+  overflow-y: auto;
+}
+
+.kastenator-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  text-align: center;
+  gap: var(--size-4-2);
+}
+
+/* ============================================
+   Header & Progress
+   ============================================ */
+
+.kastenator-header {
+  margin-bottom: var(--size-4-4);
+  padding-bottom: var(--size-4-2);
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.kastenator-header h3 {
+  margin: 0 0 var(--size-4-2) 0;
+  font-size: var(--font-ui-medium);
+}
+
+.kastenator-progress {
+  display: flex;
+  gap: var(--size-4-2);
+  justify-content: flex-start;
+}
+
+.kastenator-step {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-ui-smaller);
+  background: var(--background-modifier-border);
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+}
+
+.kastenator-step.active {
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+
+.kastenator-step.completed {
+  background: var(--text-success);
+  color: var(--text-on-accent);
+}
+
+/* ============================================
+   Phase Containers
+   ============================================ */
+
+.kastenator-phase {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4-3);
+}
+
+.kastenator-phase h4 {
+  margin: 0;
+  font-size: var(--font-ui-medium);
+}
+
+.kastenator-instructions {
+  background: var(--background-secondary);
+  padding: var(--size-4-3);
+  border-radius: var(--radius-m);
+}
+
+.kastenator-instructions p {
+  margin: var(--size-4-2) 0;
+}
+
+.kastenator-hint {
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+}
+
+/* ============================================
+   Source Preview
+   ============================================ */
+
+.kastenator-preview {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: var(--size-4-3);
+  background: var(--background-primary-alt);
+  border-radius: var(--radius-m);
+  border: 1px solid var(--background-modifier-border);
+}
+
+.kastenator-source-ref {
+  margin-top: var(--size-4-3);
+}
+
+.kastenator-source-ref summary {
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+}
+
+.kastenator-source-ref summary:hover {
+  color: var(--text-normal);
+}
+
+.kastenator-source-content {
+  margin-top: var(--size-4-2);
+  max-height: 200px;
+  overflow-y: auto;
+  padding: var(--size-4-2);
+  background: var(--background-secondary);
+  border-radius: var(--radius-s);
+  font-size: var(--font-ui-small);
+}
+
+/* ============================================
+   Input Components
+   ============================================ */
+
+.kastenator-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4-2);
+}
+
+.kastenator-concept-input {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.kastenator-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4-1);
+}
+
+.kastenator-field-group label {
+  font-size: var(--font-ui-small);
+  font-weight: var(--font-medium);
+  color: var(--text-muted);
+}
+
+.kastenator-field-group input,
+.kastenator-field-group textarea {
+  width: 100%;
+  padding: var(--size-4-2);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-s);
+  background: var(--background-primary);
+  color: var(--text-normal);
+  font-family: inherit;
+  font-size: var(--font-ui-small);
+}
+
+.kastenator-field-group textarea {
+  min-height: 60px;
+  resize: vertical;
+}
+
+.kastenator-field-group input:focus,
+.kastenator-field-group textarea:focus {
+  border-color: var(--interactive-accent);
+  outline: none;
+}
+
+/* ============================================
+   Candidate List
+   ============================================ */
+
+.kastenator-candidate-list {
+  margin-top: var(--size-4-3);
+}
+
+.kastenator-candidate-list h5 {
+  margin: 0 0 var(--size-4-2) 0;
+  font-size: var(--font-ui-small);
+  color: var(--text-muted);
+}
+
+.kastenator-candidate-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--size-4-2);
+  background: var(--background-secondary);
+  border-radius: var(--radius-s);
+  margin-bottom: var(--size-4-1);
+}
+
+.kastenator-candidate-item span {
+  flex: 1;
+}
+
+.kastenator-remove-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: var(--size-4-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kastenator-remove-btn:hover {
+  color: var(--text-error);
+}
+
+/* ============================================
+   Cards (Explanation, Critique, etc.)
+   ============================================ */
+
+.kastenator-explanation-card,
+.kastenator-critique-card,
+.kastenator-refinement-card,
+.kastenator-confirm-card {
+  padding: var(--size-4-3);
+  background: var(--background-secondary);
+  border-radius: var(--radius-m);
+  margin-bottom: var(--size-4-2);
+}
+
+.kastenator-explanation-card h5,
+.kastenator-critique-card h5,
+.kastenator-refinement-card h5 {
+  margin: 0 0 var(--size-4-2) 0;
+  font-size: var(--font-ui-medium);
+}
+
+/* ============================================
+   Critique Phase
+   ============================================ */
+
+.kastenator-status {
+  display: inline-flex;
+  padding: var(--size-4-1) var(--size-4-2);
+  border-radius: var(--radius-s);
+  font-size: var(--font-ui-smaller);
+  margin-bottom: var(--size-4-2);
+}
+
+.kastenator-status.valid {
+  background: var(--background-modifier-success);
+  color: var(--text-success);
+}
+
+.kastenator-status.needs-work {
+  background: var(--background-modifier-error);
+  color: var(--text-error);
+}
+
+.kastenator-critique-content {
+  padding: var(--size-4-2);
+  background: var(--background-primary-alt);
+  border-radius: var(--radius-s);
+  border-left: 3px solid var(--interactive-accent);
+}
+
+.kastenator-critique-content p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.kastenator-suggestions {
+  margin-top: var(--size-4-2);
+}
+
+.kastenator-suggestions strong {
+  font-size: var(--font-ui-small);
+  color: var(--text-muted);
+}
+
+.kastenator-suggestions ul {
+  margin: var(--size-4-1) 0 0 0;
+  padding-left: var(--size-4-4);
+}
+
+.kastenator-suggestions li {
+  font-size: var(--font-ui-small);
+  color: var(--text-muted);
+}
+
+.kastenator-previous-critique {
+  margin-bottom: var(--size-4-2);
+  padding: var(--size-4-2);
+  background: var(--background-primary-alt);
+  border-radius: var(--radius-s);
+  font-size: var(--font-ui-small);
+}
+
+.kastenator-previous-critique strong {
+  color: var(--text-muted);
+}
+
+.kastenator-previous-critique p {
+  margin: var(--size-4-1) 0 0 0;
+}
+
+/* ============================================
+   Confirmation Phase
+   ============================================ */
+
+.kastenator-check-group {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2);
+  margin-bottom: var(--size-4-2);
+}
+
+.kastenator-check-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+.kastenator-check-group label {
+  font-weight: var(--font-medium);
+}
+
+.kastenator-confirm-summary {
+  padding-left: var(--size-4-4);
+}
+
+.kastenator-confirm-summary p {
+  margin: 0 0 var(--size-4-2) 0;
+  font-size: var(--font-ui-small);
+}
+
+.kastenator-confirm-summary blockquote {
+  margin: 0;
+  padding: var(--size-4-2);
+  background: var(--background-primary-alt);
+  border-left: 3px solid var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  font-style: italic;
+}
+
+.kastenator-selection-count {
+  font-weight: var(--font-medium);
+  color: var(--text-accent);
+}
+
+/* ============================================
+   Creation & Completion
+   ============================================ */
+
+.kastenator-creation-progress {
+  padding: var(--size-4-4);
+  text-align: center;
+}
+
+.kastenator-error {
+  color: var(--text-error);
+}
+
+.kastenator-created-list {
+  list-style: none;
+  padding: 0;
+  margin: var(--size-4-2) 0;
+}
+
+.kastenator-created-list li {
+  margin-bottom: var(--size-4-1);
+}
+
+.kastenator-created-list a {
+  color: var(--text-accent);
+  cursor: pointer;
+}
+
+.kastenator-created-list a:hover {
+  text-decoration: underline;
+}
+
+.kastenator-source-link {
+  margin-top: var(--size-4-3);
+  padding: var(--size-4-2);
+  background: var(--background-secondary);
+  border-radius: var(--radius-s);
+}
+
+.kastenator-source-link a {
+  color: var(--text-accent);
+  cursor: pointer;
+}
+
+/* ============================================
+   Navigation & Buttons
+   ============================================ */
+
+.kastenator-nav {
+  display: flex;
+  gap: var(--size-4-2);
+  margin-top: var(--size-4-3);
+  padding-top: var(--size-4-3);
+  border-top: 1px solid var(--background-modifier-border);
+}
+
+.kastenator-action-btn {
+  margin-top: var(--size-4-3);
+}
+
+button.mod-secondary {
+  background: var(--background-modifier-border);
+  color: var(--text-normal);
+}
+
+button.mod-secondary:hover {
+  background: var(--background-modifier-border-hover);
+}
+
+/* ============================================
+   Modal Styles
+   ============================================ */
+
+.kastenator-modal {
+  max-width: 500px;
+}
+
+.kastenator-modal-preview {
+  padding: var(--size-4-3);
+  background: var(--background-secondary);
+  border-radius: var(--radius-m);
+  margin: var(--size-4-3) 0;
+}
+
+.kastenator-modal-preview h3 {
+  margin: 0 0 var(--size-4-2) 0;
+}
+
+.kastenator-modal-preview p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+}
+
+.kastenator-modal-meta {
+  margin-bottom: var(--size-4-3);
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+}
+
+.kastenator-modal-actions {
+  display: flex;
+  gap: var(--size-4-2);
+  justify-content: flex-end;
+}
+
+/* ============================================
+   Settings Tab
+   ============================================ */
+
+.kastenator-template-info {
+  margin-top: var(--size-4-2);
+  padding: var(--size-4-3);
+  background: var(--background-secondary);
+  border-radius: var(--radius-m);
+}
+
+.kastenator-template-info p {
+  margin: 0 0 var(--size-4-2) 0;
+}
+
+.kastenator-template-info ul {
+  margin: 0;
+  padding-left: var(--size-4-4);
+}
+
+.kastenator-template-info li {
+  font-family: var(--font-monospace);
+  font-size: var(--font-ui-smaller);
+  margin-bottom: var(--size-4-1);
+}
