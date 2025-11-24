@@ -7,6 +7,7 @@ import {
   AtomisationPhase,
   ValidationResult,
 } from '../types';
+import { LLMService } from './llm/index';
 
 /**
  * Manages the atomisation workflow and atom creation
@@ -15,10 +16,12 @@ export class AtomisationService {
   private app: App;
   private settings: KastenatorSettings;
   private currentSession: AtomisationSession | null = null;
+  private llmService: LLMService;
 
   constructor(app: App, settings: KastenatorSettings) {
     this.app = app;
     this.settings = settings;
+    this.llmService = new LLMService(app, settings);
   }
 
   /**
@@ -26,6 +29,7 @@ export class AtomisationService {
    */
   updateSettings(settings: KastenatorSettings): void {
     this.settings = settings;
+    this.llmService.updateSettings(settings);
   }
 
   /**
@@ -224,9 +228,9 @@ export class AtomisationService {
   }
 
   /**
-   * Generate critique for a candidate
+   * Generate critique for a candidate using rule-based heuristics
    */
-  generateCritique(candidate: AtomCandidate): string {
+  generateRuleBasedCritique(candidate: AtomCandidate): string {
     const issues: string[] = [];
 
     // Title critique
@@ -260,6 +264,72 @@ export class AtomisationService {
     }
 
     return issues.join('\n\n');
+  }
+
+  /**
+   * Generate critique for a candidate (sync version, rule-based only)
+   * For backwards compatibility and tests
+   */
+  generateCritique(candidate: AtomCandidate): string {
+    return this.generateRuleBasedCritique(candidate);
+  }
+
+  /**
+   * Generate critique using LLM (if enabled) with fallback to rule-based
+   */
+  async generateCritiqueAsync(candidate: AtomCandidate): Promise<string> {
+    // Check if LLM critique is enabled in settings
+    if (!this.settings.useLLMCritique) {
+      return this.generateRuleBasedCritique(candidate);
+    }
+
+    const llmAvailable = await this.llmService.isAvailable();
+
+    if (!llmAvailable) {
+      return this.generateRuleBasedCritique(candidate);
+    }
+
+    // Get source content from current session
+    const sourceContent = this.currentSession?.sourceNote.content ?? '';
+
+    const prompt = this.llmService.buildCritiquePrompt(
+      candidate.concept,
+      candidate.explanation,
+      candidate.evidence,
+      sourceContent
+    );
+
+    const result = await this.llmService.complete(prompt);
+
+    if (result.success) {
+      return result.content;
+    }
+
+    // Fallback to rule-based on LLM failure
+    console.warn(`LLM critique failed: ${result.error}. Falling back to rules.`);
+    return this.generateRuleBasedCritique(candidate);
+  }
+
+  /**
+   * Check if LLM critique is enabled and available
+   */
+  async shouldUseLLMCritique(): Promise<boolean> {
+    if (!this.settings.useLLMCritique) return false;
+    return this.llmService.isAvailable();
+  }
+
+  /**
+   * Check if LLM critique is available
+   */
+  async isLLMAvailable(): Promise<boolean> {
+    return this.llmService.isAvailable();
+  }
+
+  /**
+   * Get the name of the configured LLM provider
+   */
+  getLLMProviderName(): string {
+    return this.llmService.getProviderName();
   }
 
   /**

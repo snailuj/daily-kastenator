@@ -29,10 +29,22 @@ Daily Kastenator sends you a daily notification suggesting a random note from yo
 
 ## Installation
 
+### BRAT (Recommended)
+
+[BRAT](https://github.com/TfTHacker/obsidian42-brat) allows you to install beta plugins directly from GitHub.
+
+1. Install BRAT from the Community Plugins browser
+2. Open BRAT settings and click "Add Beta plugin"
+3. Enter the repository URL: `https://github.com/snailuj/daily-kastenator`
+4. Click "Add Plugin"
+5. Enable Daily Kastenator in Settings > Community Plugins
+
+BRAT will notify you when updates are available.
+
 ### Manual Installation
 
-1. Download the latest release
-2. Extract to your vault's `.obsidian/plugins/daily-kastenator/` directory
+1. Download the latest release from the [Releases page](https://github.com/snailuj/daily-kastenator/releases)
+2. Extract `main.js`, `manifest.json`, and `styles.css` to your vault's `.obsidian/plugins/daily-kastenator/` directory
 3. Enable the plugin in Obsidian Settings > Community Plugins
 
 ### Development

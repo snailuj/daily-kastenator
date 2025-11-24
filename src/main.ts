@@ -16,6 +16,8 @@ const DEFAULT_SETTINGS: KastenatorSettings = {
   atomTemplatePath: '',
   lastNotificationDate: '',
   notificationEnabled: true,
+  llmProvider: 'none',
+  useLLMCritique: true,
 };
 
 export default class DailyKastenatorPlugin extends Plugin {

@@ -1,5 +1,8 @@
 import { App, PluginSettingTab, Setting, Notice } from 'obsidian';
 import DailyKastenatorPlugin from './main';
+import { LLMProviderType } from './types';
+import { CLAUDE_MODELS, DEFAULT_CLAUDE_MODEL } from './services/llm/claude';
+import { OPENROUTER_MODELS, DEFAULT_OPENROUTER_MODEL } from './services/llm/openrouter';
 
 /**
  * Settings tab for Daily Kastenator plugin
@@ -153,6 +156,122 @@ export class KastenatorSettingTab extends PluginSettingTab {
     ];
     for (const v of variables) {
       varList.createEl('li', { text: v });
+    }
+
+    // LLM Settings Section
+    containerEl.createEl('h3', { text: 'AI Critique (Optional)' });
+
+    containerEl.createEl('p', {
+      text: 'Configure an LLM provider for AI-powered critique during atomisation. Falls back to rule-based critique if not configured.',
+      cls: 'setting-item-description',
+    });
+
+    new Setting(containerEl)
+      .setName('Use AI critique')
+      .setDesc('When enabled and a provider is configured, uses LLM for critique instead of rule-based heuristics')
+      .addToggle((toggle) =>
+        toggle
+          .setValue(this.plugin.settings.useLLMCritique ?? true)
+          .onChange(async (value) => {
+            this.plugin.settings.useLLMCritique = value;
+            await this.plugin.saveSettings();
+          })
+      );
+
+    new Setting(containerEl)
+      .setName('LLM Provider')
+      .setDesc('Choose how to access AI for critique')
+      .addDropdown((dropdown) => {
+        dropdown.addOption('none', 'None (rule-based only)');
+        dropdown.addOption('smart-connections', 'Smart Connections');
+        dropdown.addOption('claude', 'Claude (direct API)');
+        dropdown.addOption('openrouter', 'OpenRouter');
+        dropdown.setValue(this.plugin.settings.llmProvider ?? 'none');
+        dropdown.onChange(async (value) => {
+          this.plugin.settings.llmProvider = value as LLMProviderType;
+          await this.plugin.saveSettings();
+          // Re-render to show/hide provider-specific settings
+          this.display();
+        });
+      });
+
+    // Smart Connections info
+    if (this.plugin.settings.llmProvider === 'smart-connections') {
+      const scInfo = containerEl.createDiv({ cls: 'kastenator-provider-info' });
+      scInfo.createEl('p', {
+        text: 'Uses your existing Smart Connections configuration. Supports local LLMs (Ollama, LM Studio) and cloud providers.',
+        cls: 'setting-item-description',
+      });
+    }
+
+    // Claude settings
+    if (this.plugin.settings.llmProvider === 'claude') {
+      new Setting(containerEl)
+        .setName('Claude API Key')
+        .setDesc('Your Anthropic API key')
+        .addText((text) =>
+          text
+            .setPlaceholder('sk-ant-...')
+            .setValue(this.plugin.settings.claudeApiKey ?? '')
+            .onChange(async (value) => {
+              this.plugin.settings.claudeApiKey = value.trim();
+              await this.plugin.saveSettings();
+            })
+        );
+
+      new Setting(containerEl)
+        .setName('Claude Model')
+        .setDesc('Model to use for critique')
+        .addDropdown((dropdown) => {
+          for (const model of CLAUDE_MODELS) {
+            dropdown.addOption(model.id, model.name);
+          }
+          dropdown.setValue(
+            this.plugin.settings.claudeModel ?? DEFAULT_CLAUDE_MODEL
+          );
+          dropdown.onChange(async (value) => {
+            this.plugin.settings.claudeModel = value;
+            await this.plugin.saveSettings();
+          });
+        });
+    }
+
+    // OpenRouter settings
+    if (this.plugin.settings.llmProvider === 'openrouter') {
+      new Setting(containerEl)
+        .setName('OpenRouter API Key')
+        .setDesc('Your OpenRouter API key')
+        .addText((text) =>
+          text
+            .setPlaceholder('sk-or-...')
+            .setValue(this.plugin.settings.openrouterApiKey ?? '')
+            .onChange(async (value) => {
+              this.plugin.settings.openrouterApiKey = value.trim();
+              await this.plugin.saveSettings();
+            })
+        );
+
+      new Setting(containerEl)
+        .setName('OpenRouter Model')
+        .setDesc('Model to use for critique')
+        .addDropdown((dropdown) => {
+          for (const model of OPENROUTER_MODELS) {
+            dropdown.addOption(model.id, model.name);
+          }
+          dropdown.setValue(
+            this.plugin.settings.openrouterModel ?? DEFAULT_OPENROUTER_MODEL
+          );
+          dropdown.onChange(async (value) => {
+            this.plugin.settings.openrouterModel = value;
+            await this.plugin.saveSettings();
+          });
+        });
+
+      const orInfo = containerEl.createDiv({ cls: 'kastenator-provider-info' });
+      orInfo.createEl('p', {
+        text: 'OpenRouter provides access to 100+ models with a single API key.',
+        cls: 'setting-item-description',
+      });
     }
 
     // Actions Section

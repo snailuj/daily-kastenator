@@ -1,6 +1,6 @@
 {
   "name": "daily-kastenator",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Daily notification system for atomising Zettelkasten quarry notes",
   "main": "main.js",
   "scripts": {

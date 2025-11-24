@@ -3,6 +3,11 @@ import { TFile } from 'obsidian';
 /**
  * Plugin settings interface
  */
+/**
+ * Available LLM provider types
+ */
+export type LLMProviderType = 'none' | 'smart-connections' | 'claude' | 'openrouter';
+
 export interface KastenatorSettings {
   /** Hour of day to show notification (0-23) */
   notificationHour: number;
@@ -22,6 +27,19 @@ export interface KastenatorSettings {
   lastNotificationDate: string;
   /** Whether daily notification is enabled */
   notificationEnabled: boolean;
+
+  /** LLM provider for AI-powered critique */
+  llmProvider: LLMProviderType;
+  /** Whether to use LLM critique when available */
+  useLLMCritique: boolean;
+  /** Claude API key (direct) */
+  claudeApiKey?: string;
+  /** Claude model ID */
+  claudeModel?: string;
+  /** OpenRouter API key */
+  openrouterApiKey?: string;
+  /** OpenRouter model ID */
+  openrouterModel?: string;
 }
 
 /**

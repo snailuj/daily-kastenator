@@ -13,6 +13,8 @@ const createDefaultSettings = (): KastenatorSettings => ({
   atomTemplatePath: '',
   lastNotificationDate: '',
   notificationEnabled: true,
+  llmProvider: 'none',
+  useLLMCritique: false,
 });
 
 const createQuarryNote = (overrides: Partial<QuarryNote> = {}): QuarryNote => ({
